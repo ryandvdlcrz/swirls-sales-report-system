@@ -1,12 +1,32 @@
 <!doctype html>
-<html>
+<html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Swirls Login Page</title>
   <link href="./src/output.css" rel="stylesheet">
 </head>
-<body>
-  <h1 class="text-3xl font-bold underline bg-yellow-500 text-white">
-    Hello world!
-  </h1>
+
+<body class="h-screen">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 h-full">
+    <div class="flex items-center justify-center h-full">
+      <img src="img/swirls-logo.webp" alt="swirls-logo" class="w-48 md:h-60 md:w-60">
+    </div>
+    <div class="flex flex-col items-center justify-center">
+      <h2 class="flex items-center justify-center text-2xl mb-4">Welcome to Swirls!</h2>
+      <form action="" class="w-96 mx-auto space-y-4">
+        <div class="mb-4">
+        <label for="username" class="text-2xl p-3">Username:</label>
+        <input type="text" class="border-2 rounded" placeholder="Username">
+        </div>
+        <div class="mb-4">
+          <label for="password" class="text-2xl p-3">Password:</label>
+          <input type="text" class="border-2 rounded ml-2"placeholder="Password">
+        </div>
+      </form>
+    </div>
+  </div>
 </body>
+
+</html>
