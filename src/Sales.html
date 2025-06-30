@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Benta ni Manong Sorbetero</title>
+
+    <link href="./output.css" rel="stylesheet">
+    <script src="//unpkg.com/alpinejs" defer></script>
+</head>
+<body>
+
+ <!--background-->
+    <div class="min-h-screen m-0 p-0 bg-no-repeat bg-cover bg-center flex flex-col items-center justify-center  flex-wrap"
+    style="background-image: url('img/settings_sales_ordererzxs.png');">
+
+        <header>
+                <!--Option to-->
+                <div class="container flex items-center justify-center flex-wrap gap-2 mb-7 pt-10">
+
+                    <!--logo-->
+                    <div class="flex items-center justify-center">
+                        <a href="home.html"><img src="img/swirls-logo.webp" alt="logo"
+                        class="w-40 sm:w-32 md:w-20 " ></a>
+                    </div>
+
+                    <!--background nung options-->
+                    <div class="flex items-center justify-between bg-white rounded-xl p-[10px] shadow-md ">
+
+                        <!--eto na talaga mga option ahahaha-->
+                        <div class="w-full lg:w-auto flex justify-center">
+                                <div class="flex flex-wrap justify-center gap-4  rounded font-[550] ">
+
+                                    <button class="hover:bg-red-200 text-red-300 px-5 py-2 rounded-full"><a href="Menu.html">Menu</a></button>
+                                    <button class="bg-red-200 text-red-400 px-5 py-2 rounded-full"><a href="Sales.html">Sales</a></button>
+                                    <button class="hover:bg-red-200 text-red-300 px-5 py-2 rounded-full"><a href="settings.html">Settings</a></button>
+                                    <button class="hover:bg-red-200 text-red-300 px-5 py-2 rounded-full"><a href="Account.html">Account</a></button>
+                                    
+                                    <div x-data="{open: false}">
+                                    <button x-show="!open" @click="open = true" 
+                                    class="hover:bg-red-200 text-red-300 px-5 py-2 rounded-full">
+                                    Search
+                                    </button>
+
+                                    <div x-show="open" x-cloak class="flex items-center ">
+                                    
+                                    <input type="text" id="search" 
+                                        class="bg-white border-2 border-red-300 rounded p-2 text-red-300 "
+                                        placeholder="Search Items">
+                                        
+                                        <button @click="open = false" class="text-red-400 text-xl p-[5px] ">x</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </header>
+        <main class="m-5 flex-wrap">
+      
+      <div class="  rounded-xl flex items-center justify-center flex-wrap flex-col  ">
+         <div class="  bg-pink-100 rounded-xl flex items-center justify-center  px-6 py-8 flex-wrap  mb-4 border-2 gap-4">
+
+          <div class="   flex justify-center bg-white rounded-xl   border-2 leading-relaxed">
+          <div class=" text-justify shadow-md bg-green-300 rounded-xl px-4  m-5 flex-wrap flex- pe-13 ">
+            <p class="py-2 mb-  ">Daily Sales</p>
+            <h1 class=" text-2xl mb-3 font-semibold tracking-wide ">Php4.4k</h1>
+            <p class=" py-2 mb-6 text-yellow-400">32k increase </p>
+          </div></div>
+
+          <div class="   flex justify-center bg-white rounded-xl   border-2 leading-relaxed">
+          <div class=" text-justify shadow-md bg-green-300 rounded-xl px-4  m-5 flex-wrap flex-col pe-13 ">
+            <p class="py-2 mb-  ">Weekly Sales</p>
+            <h1 class=" text-2xl mb-3 font-semibold tracking-wide ">Php25k</h1>
+            <p class=" py-2 mb-6 text-yellow-400">3% Decrease </p>
+          </div></div>
+
+          <div class="   flex justify-center bg-white rounded-xl   border-2 leading-relaxed">
+          <div class=" text-justify shadow-md bg-green-300 rounded-xl px-4  m-5 flex-wrap flex-col  pe-13">
+            <p class="py-2 mb-  ">Monthly Sales</p>
+            <h1 class=" text-2xl mb-3 font-semibold tracking-wide ">Php60k</h1>
+            <p class=" py-2 mb-6 text-yellow-400">7% Increase </p>
+          </div></div>
+          
+          </div>
+          <div class="    pl-135 flex-wrap ">
+            <div class="  bg-pink-400 rounded-xl px-4 py-1  flex-wrap ">
+          <div class="  flex items-center justify-between">View Recent Order</div>
+          </div>
+        </div>
+        </div>
+           
+
+    </main>
+
+    </div>
+</body>
+</html>
