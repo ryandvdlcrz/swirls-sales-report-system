@@ -15,11 +15,11 @@ class BestSellingProducts extends ChartWidget
 
     protected function getData(): array
     {
-        $products = DB::table('sales')
-            ->join('products', 'sales.product_id', '=', 'products.id')
+        $products = DB::table('products')
+            ->leftJoin('sales', 'products.id', '=', 'sales.product_id')
             ->select('products.name as product_name')
-            ->selectRaw('SUM(sales.qty) as total_quantity')
-            ->groupBy('sales.product_id', 'products.name')
+            ->selectRaw('COALESCE(SUM(sales.qty), 0) as total_quantity')
+            ->groupBy('products.id', 'products.name')
             ->orderByDesc('total_quantity')
             ->get();
 
