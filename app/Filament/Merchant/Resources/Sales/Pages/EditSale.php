@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\Merchant\Resources\SaleResource\Pages;
+namespace App\Filament\Merchant\Resources\Sales\Pages;
 
-use App\Filament\Merchant\Resources\SaleResource;
+use App\Filament\Merchant\Resources\Sales\SaleResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 

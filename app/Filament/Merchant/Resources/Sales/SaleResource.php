@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\Merchant\Resources;
+namespace App\Filament\Merchant\Resources\Sales;
 
-use App\Filament\Merchant\Resources\SaleResource\Pages;
+use App\Filament\Merchant\Resources\Sales\Pages;
 use App\Models\Sale;
 use BackedEnum;
 use Filament\Forms;
