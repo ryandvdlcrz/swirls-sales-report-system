@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 class BestSellingProducts extends ChartWidget
 {
-    protected static ?string $heading = 'Product Sales (All Branches)';
+    protected ?string $heading = 'Product Sales (All Branches)';
 
     protected static ?int $sort = 2;
 
