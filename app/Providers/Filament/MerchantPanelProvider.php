@@ -2,7 +2,7 @@
 
 namespace App\Providers\Filament;
 
-use App\Filament\Merchant\Resources\SaleResource;
+use App\Filament\Merchant\Resources\Sales\SaleResource;
 use App\Filament\Merchant\Widgets\LatestSalesWidget;
 use App\Filament\Merchant\Widgets\SalesStatsWidget;
 use Filament\Http\Middleware\Authenticate;
