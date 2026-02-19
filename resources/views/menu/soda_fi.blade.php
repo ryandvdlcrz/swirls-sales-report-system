@@ -11,7 +11,7 @@
                 flavors: {
                     'Coke / Pepsi': { quantity: 0, },
                     'Mountain Dew / Royal': { quantity: 0, },
-                    'Rootbear / Sarsi': { quantity: 0, },
+                    'Rootbeer / Sarsi': { quantity: 0, },
 
 
                 },
@@ -141,12 +141,12 @@
         </div>
 
         <!-- Rootbear / Sarsi -->
-        <div class="rounded-2xl" @click="selectedFlavor='Rootbear / Sarsi'">
+        <div class="rounded-2xl" @click="selectedFlavor='Rootbeer / Sarsi'">
             <div class="bg-white w-58 p-5 drop-shadow-sm flex flex-col justify-center items-center space-y-3 rounded-2xl max-[780px]:space-y-2 max-[780px]:p-4">
 
                 <!-- Image -->
                 <div class="bg-[#FFFBFB] shadow-sm rounded-2xl py-6 mt-6 px-1 h-[135px] items-center drop-shadow-sm">
-                    <img src="{{ asset('img/rootbearSarsiSodaFloat.png') }}" alt="Rootbear / Sarsi" class="-mt-15 ml-7 w-[126px] h-[126px]">
+                    <img src="{{ asset('img/rootbearSarsiSodaFloat.png') }}" alt="Rootbeer / Sarsi" class="-mt-15 ml-7 w-[126px] h-[126px]">
 
                     <h1 class="text-center -mt-4 max-[780px]:-mt-0 text-lg px-1 max-[780px]:text-sm">
                         Rootbear / Sarsi
@@ -166,16 +166,16 @@
 
                 <!-- Quantity -->
                 <div class="flex justify-between space-x-7 p-1 px-5 rounded-full inset-shadow-sm shadow overflow-hidden">
-                    <button @click.stop="if(flavors['Rootbear / Sarsi'].quantity > 0) flavors['Rootbear / Sarsi'].quantity--; 
-                    else flavors['Rootbear / Sarsi'].quantity=0" class="px-2.5 bg-gray-300 hover:bg-gray-400 font-bold rounded-full">
+                    <button @click.stop="if(flavors['Rootbeer / Sarsi'].quantity > 0) flavors['Rootbeer / Sarsi'].quantity--; 
+                    else flavors['Rootbeer / Sarsi'].quantity=0" class="px-2.5 bg-gray-300 hover:bg-gray-400 font-bold rounded-full">
                         −
                     </button>
 
                     <span class="px-4 py-1 bg-white text-gray-800">
-                        <span x-text="flavors['Rootbear / Sarsi'].quantity"></span>
+                        <span x-text="flavors['Rootbeer / Sarsi'].quantity"></span>
                     </span>
 
-                    <button @click.stop="flavors['Rootbear / Sarsi'].quantity++" class="px-2.5 bg-gray-300 hover:bg-gray-400 font-bold rounded-full">+</button>
+                    <button @click.stop="flavors['Rootbeer / Sarsi'].quantity++" class="px-2.5 bg-gray-300 hover:bg-gray-400 font-bold rounded-full">+</button>
                 </div>
             </div>
         </div>

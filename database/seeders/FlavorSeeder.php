@@ -53,7 +53,7 @@
                 'Mango Graham',
 
                 // Soda Float flavors
-                'Pepsi / Coke',
+                'Coke / Pepsi',
                 'Mountain Dew / Royal',
                 'Root beer / Sarsi',
 
