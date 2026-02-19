@@ -149,7 +149,7 @@
                     <img src="{{ asset('img/rootbearSarsiSodaFloat.png') }}" alt="Rootbeer / Sarsi" class="-mt-15 ml-7 w-[126px] h-[126px]">
 
                     <h1 class="text-center -mt-4 max-[780px]:-mt-0 text-lg px-1 max-[780px]:text-sm">
-                        Rootbear / Sarsi
+                        Rootbeer / Sarsi
                     </h1>
                 </div>
 
