@@ -131,4 +131,18 @@ class BranchProductChart extends ChartWidget
             'all'   => 'All Time',
         ];
     }
+    
+    protected function getHeight(): ?string
+    {
+        if (!$this->record) {
+            return '300px';
+        }
+
+        $productCount = DB::table('products')->count();
+
+        // 40px per product, minimum 300px
+        $height = max(300, $productCount * 40);
+
+        return $height . 'px';
+    }
 }
