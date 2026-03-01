@@ -13,13 +13,47 @@ class BestSellingProducts extends ChartWidget
 
     protected int | string | array $columnSpan = 1;
 
+    public ?string $filter = 'month';
+
+    protected function getFilters(): ?array
+    {
+        return [
+            'today' => 'Today',
+            'week'  => 'This Week',
+            'month' => 'This Month',
+            'year'  => 'This Year',
+            'all'   => 'All Time',
+        ];
+    }
+
     protected function getData(): array
     {
+        $salesQuery = DB::table('sales')
+            ->select('product_id', DB::raw('SUM(qty) as total_quantity'))
+            ->groupBy('product_id');
+
+        match ($this->filter) {
+            'today' => $salesQuery->whereDate('sale_date', today()),
+            'week'  => $salesQuery->whereBetween('sale_date', [
+                now()->startOfWeek(),
+                now()->endOfWeek(),
+            ]),
+            'month' => $salesQuery->whereBetween('sale_date', [
+                now()->startOfMonth(),
+                now()->endOfMonth(),
+            ]),
+            'year'  => $salesQuery->whereYear('sale_date', now()->year),
+            default => null,
+        };
+
         $products = DB::table('products')
-            ->leftJoin('sales', 'products.id', '=', 'sales.product_id')
-            ->select('products.name as product_name')
-            ->selectRaw('COALESCE(SUM(sales.qty), 0) as total_quantity')
-            ->groupBy('products.id', 'products.name')
+            ->leftJoinSub($salesQuery, 'sales_summary', function ($join) {
+                $join->on('products.id', '=', 'sales_summary.product_id');
+            })
+            ->select(
+                'products.name as product_name',
+                DB::raw('COALESCE(sales_summary.total_quantity, 0) as total_quantity')
+            )
             ->orderByDesc('total_quantity')
             ->get();
 
@@ -45,13 +79,14 @@ class BestSellingProducts extends ChartWidget
     protected function getOptions(): array
     {
         return [
+            'indexAxis' => 'y',
             'plugins' => [
                 'legend' => [
                     'display' => false,
                 ],
             ],
             'scales' => [
-                'y' => [
+                'x' => [
                     'beginAtZero' => true,
                     'ticks' => [
                         'precision' => 0,
