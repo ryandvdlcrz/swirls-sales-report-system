@@ -48,6 +48,16 @@ class UserForm
                         TextInput::make('name')
                             ->required()
                             ->maxLength(255),
+                        TextInput::make('code')
+                            ->required()
+                            ->unique('branches', 'code')
+                            ->maxLength(4)
+                            ->hint('Format: B001, B002, etc.')
+                            ->placeholder('B001')
+                            ->regex('/^B\d{3}$/'),
+                        TextInput::make('location')
+                            ->required()
+                            ->maxLength(255),
                     ])
                     ->createOptionAction(
                         fn(Action $action) => $action->modalHeading('Create Branch')
