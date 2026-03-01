@@ -1,25 +1,67 @@
 <?php
 
-namespace Database\Seeders;
+namespace App\Filament\Resources\Users\Schemas;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
-use App\Models\Branch;
+use Filament\Actions\Action;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Schema;
 
-class BranchSeeder extends Seeder
+class UserForm
 {
-    /**
-     * Run the database seeds.
-     */
-    public function run(): void
+    public static function configure(Schema $schema): Schema
     {
-        for ($i = 1; $i <=50; $i++)
-        {
-            Branch::create(
-                ['name' => 'Branch' . $i,
-                 'code' => 'B' . str_pad($i, 3, 0, STR_PAD_LEFT),
-                 'location' => 'Location' . $i]
-            );
-        }
+        return $schema
+            ->components([
+                TextInput::make('username')
+                    ->required()
+                    ->unique(ignoreRecord: true)
+                    ->maxLength(255),
+
+                TextInput::make('password')
+                    ->password()
+                    ->revealable()
+                    ->required(fn(string $operation): bool => $operation === 'create')
+                    ->dehydrated(fn(?string $state): bool => filled($state))
+                    ->confirmed()
+                    ->maxLength(255),
+
+                TextInput::make('password_confirmation')
+                    ->password()
+                    ->revealable()
+                    ->label('Confirm Password')
+                    ->required(fn(string $operation): bool => $operation === 'create')
+                    ->dehydrated(false),
+
+                Select::make('role')
+                    ->options(['admin' => 'Admin', 'merchant' => 'Merchant'])
+                    ->default('merchant')
+                    ->required()
+                    ->native(false),
+
+                Select::make('branch_id')
+                    ->relationship('branch', 'name')
+                    ->searchable()
+                    ->preload()
+                    ->native(false)
+                    ->createOptionForm([
+                        TextInput::make('name')
+                            ->required()
+                            ->maxLength(255),
+                        TextInput::make('code')
+                            ->required()
+                            ->unique('branches', 'code')
+                            ->maxLength(4)
+                            ->hint('Format: B001, B002, etc.')
+                            ->placeholder('B001')
+                            ->regex('/^B\d{3}$/'),
+                        TextInput::make('location')
+                            ->required()
+                            ->maxLength(255),
+                    ])
+                    ->createOptionAction(
+                        fn(Action $action) => $action->modalHeading('Create Branch')
+                    ),
+            ]);
     }
 }
