@@ -20,6 +20,7 @@ class User extends Authenticatable implements FilamentUser, HasName
         'password',
         'role',
         'branch_id',
+        'is_active',
     ];
 
     protected $hidden = [
@@ -31,9 +32,9 @@ class User extends Authenticatable implements FilamentUser, HasName
     {
         return [
             'password' => 'hashed',
+            'is_active' => 'boolean',
         ];
     }
-
 
     public function getFilamentName(): string
     {
@@ -47,14 +48,15 @@ class User extends Authenticatable implements FilamentUser, HasName
 
     public function canAccessPanel(Panel $panel): bool
     {
-        // Admin can access admin panel
         if ($panel->getId() === 'admin') {
-            return $this->role === 'admin';
+            return $this->role === 'admin' && $this->is_active;
         }
 
-        // Merchant can access merchant panel
         if ($panel->getId() === 'merchant') {
-            return $this->role === 'merchant';
+            return $this->role === 'merchant'
+                && $this->is_active
+                && $this->branch !== null
+                && $this->branch->is_active;
         }
 
         return false;
@@ -69,7 +71,6 @@ class User extends Authenticatable implements FilamentUser, HasName
     {
         return $this->role === 'merchant';
     }
-
 
     public function sales(): HasMany
     {
