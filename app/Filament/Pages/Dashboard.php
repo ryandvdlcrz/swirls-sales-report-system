@@ -2,6 +2,7 @@
 
 namespace App\Filament\Pages;
 
+use App\Filament\Widgets\BestSellingProducts;
 use Filament\Pages\Dashboard as BaseDashboard;
 use App\Filament\Widgets\SalesOverview;
 use App\Filament\Widgets\SalesTrendChart;
@@ -19,7 +20,7 @@ class Dashboard extends BaseDashboard
             SalesOverview::class,
             OverallSalesTrendChart::class,
             SalesTrendChart::class,
-            
+            BestSellingProducts::class,
         ];
     }
 }
