@@ -43,7 +43,6 @@ class MerchantPanelProvider extends PanelProvider
             //->discoverWidgets(in: app_path('Filament/Merchant/Widgets'), for: 'App\\Filament\\Merchant\\Widgets')
             ->widgets([
             \App\Filament\Merchant\Widgets\SalesStatsWidget::class,
-            \App\Filament\Merchant\Widgets\MerchantTopProductStat::class,
             \App\Filament\Merchant\Widgets\MerchantSalesTrendChart::class,
             \App\Filament\Merchant\Widgets\LatestSalesWidget::class,
             \App\Filament\Merchant\Widgets\BestSellingProductsChart::class,
