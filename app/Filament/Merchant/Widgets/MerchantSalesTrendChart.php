@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class MerchantSalesTrendChart extends ChartWidget
 {
-    protected ?string $heading = 'Sales Trend (Last 7 Days)';
+    protected ?string $heading = 'Sales Trend';
 
     protected static ?int $sort = 2;
 

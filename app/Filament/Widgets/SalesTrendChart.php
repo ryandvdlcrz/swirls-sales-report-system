@@ -3,7 +3,8 @@
 namespace App\Filament\Widgets;
 
 use Filament\Widgets\ChartWidget;
-use Filament\Widgets\Concerns\InteractsWithPageFilters;
+use Filament\Actions\Action;
+use Filament\Forms\Components\Select;
 use App\Models\Sale;
 use App\Models\Branch;
 use Illuminate\Support\Carbon;
@@ -11,57 +12,165 @@ use Illuminate\Support\Facades\Auth;
 
 class SalesTrendChart extends ChartWidget
 {
-    use InteractsWithPageFilters;
-
-    protected ?string $heading = 'Sales Trend (Last 7 Days)';
+    protected ?string $heading = 'Sales Trend';
 
     protected int | string | array $columnSpan = 1;
 
+    public ?string $filter = 'week';
 
-    protected function getType(): string
-    {
-        return 'line';
-    }
+    public ?string $branchId = null;
 
-    //  Remove nested array structure — return only branch IDs as valid filters
     protected function getFilters(): ?array
     {
-        return Branch::pluck('name', 'id')->toArray();
+        return [
+            'today' => 'Today (Hourly)',
+            'week'  => 'Last 7 Days',
+            'month' => 'This Month',
+            'year'  => 'This Year',
+        ];
+    }
+
+    protected function getHeaderActions(): array
+    {
+        return [
+            Action::make('filterBranch')
+                ->label(
+                    fn() => $this->branchId
+                        ? Branch::find($this->branchId)?->name ?? 'All Branches'
+                        : 'All Branches'
+                )
+                ->icon('heroicon-m-building-office')
+                ->form([
+                    Select::make('branchId')
+                        ->label('Branch')
+                        ->options(Branch::pluck('name', 'id'))
+                        ->placeholder('All Branches')
+                        ->default($this->branchId),
+                ])
+                ->action(function (array $data): void {
+                    $this->branchId = $data['branchId'] ?? null;
+                }),
+        ];
     }
 
     protected function getData(): array
     {
-        $user = Auth::user();
-        $selectedBranchId = $this->filter; // ✅ Filament v4 passes selected filter via `$this->filter`
-
-        $query = Sale::query();
-
-        // ✅ Filter logic
-        if ($user->role !== 'admin') {
-            $query->where('branch_id', $user->branch_id);
-        } elseif ($selectedBranchId) {
-            $query->where('branch_id', $selectedBranchId);
-        }
-
-        $dates = collect(range(6, 0))->map(fn($i) => Carbon::now()->subDays($i));
-
-        $salesData = $dates->map(function ($date) use ($query) {
-            return (clone $query)
-                ->whereDate('sale_date', $date)
-                ->sum('total_amount');
-        });
+        match ($this->filter) {
+            'today' => $data = $this->getTodayData(),
+            'week'  => $data = $this->getWeekData(),
+            'month' => $data = $this->getMonthData(),
+            'year'  => $data = $this->getYearData(),
+            default => $data = $this->getWeekData(),
+        };
 
         return [
             'datasets' => [
                 [
-                    'label' => 'Total Sales (₱)',
-                    'data' => $salesData->values(),
-                    'borderColor' => '#3b82f6',
+                    'label'           => 'Total Sales (₱)',
+                    'data'            => $data['amounts'],
+                    'borderColor'     => '#3b82f6',
                     'backgroundColor' => 'rgba(59, 130, 246, 0.2)',
-                    'tension' => 0.4,
+                    'tension'         => 0.4,
                 ],
             ],
-            'labels' => $dates->map(fn($d) => $d->format('M d'))->toArray(),
+            'labels' => $data['labels'],
         ];
+    }
+
+    protected function baseQuery()
+    {
+        $query = Sale::query();
+
+        if ($this->branchId) {
+            $query->where('branch_id', $this->branchId);
+        }
+
+        return $query;
+    }
+
+    protected function getTodayData(): array
+    {
+        $sales = $this->baseQuery()
+            ->whereDate('sale_date', Carbon::today())
+            ->selectRaw('HOUR(sale_date) as hour, SUM(total_amount) as total')
+            ->groupBy('hour')
+            ->orderBy('hour')
+            ->get()
+            ->keyBy('hour');
+
+        $labels = [];
+        $amounts = [];
+
+        for ($i = 0; $i < 24; $i++) {
+            $labels[] = Carbon::today()->setHour($i)->format('h A');
+            $amounts[] = isset($sales[$i]) ? (float) $sales[$i]->total : 0;
+        }
+
+        return compact('labels', 'amounts');
+    }
+
+    protected function getWeekData(): array
+    {
+        $query = $this->baseQuery();
+        $dates = collect(range(6, 0))->map(fn($i) => Carbon::now()->subDays($i));
+
+        $amounts = $dates->map(function ($date) use ($query) {
+            return (float) (clone $query)
+                ->whereDate('sale_date', $date)
+                ->sum('total_amount');
+        })->toArray();
+
+        $labels = $dates->map(fn($d) => $d->format('M d'))->toArray();
+
+        return compact('labels', 'amounts');
+    }
+
+    protected function getMonthData(): array
+    {
+        $sales = $this->baseQuery()
+            ->whereYear('sale_date', Carbon::now()->year)
+            ->whereMonth('sale_date', Carbon::now()->month)
+            ->selectRaw('DAY(sale_date) as day, SUM(total_amount) as total')
+            ->groupBy('day')
+            ->orderBy('day')
+            ->get()
+            ->keyBy('day');
+
+        $labels = [];
+        $amounts = [];
+        $daysInMonth = Carbon::now()->daysInMonth;
+
+        for ($i = 1; $i <= $daysInMonth; $i++) {
+            $labels[] = Carbon::now()->day($i)->format('M d');
+            $amounts[] = isset($sales[$i]) ? (float) $sales[$i]->total : 0;
+        }
+
+        return compact('labels', 'amounts');
+    }
+
+    protected function getYearData(): array
+    {
+        $sales = $this->baseQuery()
+            ->whereYear('sale_date', Carbon::now()->year)
+            ->selectRaw('MONTH(sale_date) as month, SUM(total_amount) as total')
+            ->groupBy('month')
+            ->orderBy('month')
+            ->get()
+            ->keyBy('month');
+
+        $labels = [];
+        $amounts = [];
+
+        for ($i = 1; $i <= 12; $i++) {
+            $labels[] = Carbon::create()->month($i)->format('M');
+            $amounts[] = isset($sales[$i]) ? (float) $sales[$i]->total : 0;
+        }
+
+        return compact('labels', 'amounts');
+    }
+
+    protected function getType(): string
+    {
+        return 'line';
     }
 }
