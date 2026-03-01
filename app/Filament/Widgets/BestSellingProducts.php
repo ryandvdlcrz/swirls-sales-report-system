@@ -13,6 +13,8 @@ class BestSellingProducts extends ChartWidget
 
     protected int | string | array $columnSpan = 1;
 
+    protected ?string $maxHeight = '500px';
+
     public ?string $filter = 'month';
 
     protected function getFilters(): ?array
@@ -79,20 +81,33 @@ class BestSellingProducts extends ChartWidget
     protected function getOptions(): array
     {
         return [
-            'indexAxis' => 'y',
             'plugins' => [
                 'legend' => [
                     'display' => false,
                 ],
             ],
             'scales' => [
-                'x' => [
+                'y' => [
                     'beginAtZero' => true,
                     'ticks' => [
                         'precision' => 0,
                     ],
+                    'title' => [
+                        'display' => true,
+                        'text'    => 'Quantity Sold',
+                    ],
+                ],
+                'x' => [
+                    'ticks' => [
+                        'maxRotation' => 45,
+                        'minRotation' => 45,
+                        'font' => [
+                            'size' => 10,
+                        ],
+                    ],
                 ],
             ],
+            'maintainAspectRatio' => false,
         ];
     }
 }
