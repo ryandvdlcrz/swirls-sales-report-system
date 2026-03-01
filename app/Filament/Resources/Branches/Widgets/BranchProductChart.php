@@ -16,7 +16,7 @@ class BranchProductChart extends ChartWidget
 
     protected int|string|array $columnSpan = 'full';
 
-    protected ?string $maxHeight = '550px';
+    protected ?string $maxHeight = '600px';
 
     public ?string $filter = 'month';
 
