@@ -5,6 +5,7 @@ namespace App\Filament\Pages;
 use Filament\Pages\Dashboard as BaseDashboard;
 use App\Filament\Widgets\SalesOverview;
 use App\Filament\Widgets\SalesTrendChart;
+use App\Filament\Widgets\OverallSalesTrendChart;
 use BackedEnum;
 
 class Dashboard extends BaseDashboard
@@ -17,6 +18,7 @@ class Dashboard extends BaseDashboard
         return [
             SalesOverview::class,
             SalesTrendChart::class,
+            OverallSalesTrendChart::class,
         ];
     }
 }
