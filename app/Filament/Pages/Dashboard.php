@@ -17,8 +17,9 @@ class Dashboard extends BaseDashboard
     {
         return [
             SalesOverview::class,
-            SalesTrendChart::class,
             OverallSalesTrendChart::class,
+            SalesTrendChart::class,
+            
         ];
     }
 }

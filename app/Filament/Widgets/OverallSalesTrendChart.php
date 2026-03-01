@@ -10,6 +10,8 @@ class OverallSalesTrendChart extends ChartWidget
 {
     protected ?string $heading = 'Overall Sales Trend';
 
+    protected static ?int $sort = 3;
+    
     protected int | string | array $columnSpan = 1;
 
     public ?string $filter = 'week';

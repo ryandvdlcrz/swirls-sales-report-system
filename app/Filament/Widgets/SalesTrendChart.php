@@ -10,7 +10,9 @@ use Illuminate\Support\Facades\Auth;
 
 class SalesTrendChart extends ChartWidget
 {
-    protected ?string $heading = 'Sales Trend by Branch (All Time)';
+    protected ?string $heading = 'Sales Trend by Branch';
+
+    protected static ?int $sort = 3;
 
     protected int | string | array $columnSpan = 1;
 
