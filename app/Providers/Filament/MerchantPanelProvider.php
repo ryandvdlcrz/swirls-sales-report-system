@@ -46,6 +46,7 @@ class MerchantPanelProvider extends PanelProvider
             \App\Filament\Merchant\Widgets\MerchantTopProductStat::class,
             \App\Filament\Merchant\Widgets\MerchantSalesTrendChart::class,
             \App\Filament\Merchant\Widgets\LatestSalesWidget::class,
+            \App\Filament\Merchant\Widgets\BestSellingProductsChart::class,
             ])
             ->middleware([
                 EncryptCookies::class,

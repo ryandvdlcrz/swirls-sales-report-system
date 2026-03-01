@@ -23,7 +23,7 @@ class SalesTrendChart extends ChartWidget
         return 'line';
     }
 
-    // ✅ Remove nested array structure — return only branch IDs as valid filters
+    //  Remove nested array structure — return only branch IDs as valid filters
     protected function getFilters(): ?array
     {
         return Branch::pluck('name', 'id')->toArray();
