@@ -22,7 +22,6 @@ class ListSales extends ListRecords
     {
         return [
             BestSellingProductsChart::class,
-            LeastSellingProductsChart::class,
         ];
     }
 }
