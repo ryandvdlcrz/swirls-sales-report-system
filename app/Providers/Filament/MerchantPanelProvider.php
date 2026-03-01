@@ -44,7 +44,6 @@ class MerchantPanelProvider extends PanelProvider
             ->widgets([
                 SalesStatsWidget::class,
             \App\Filament\Merchant\Widgets\BestSellingProductsChart::class,
-            \App\Filament\Merchant\Widgets\LeastSellingProductsChart::class,
             ])
             ->middleware([
                 EncryptCookies::class,
