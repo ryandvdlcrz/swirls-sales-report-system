@@ -16,16 +16,18 @@ class BestSellingProductsChart extends ChartWidget
 
     protected int | string | array $columnSpan = 'full';
 
+    protected ?string $maxHeight = '500px';
+
     public ?string $filter = 'month';
 
     protected function getFilters(): ?array
     {
         return [
             'today' => 'Today',
-            'week' => 'This Week',
+            'week'  => 'This Week',
             'month' => 'This Month',
-            'year' => 'This Year',
-            'all' => 'All Time',
+            'year'  => 'This Year',
+            'all'   => 'All Time',
         ];
     }
 
@@ -33,7 +35,6 @@ class BestSellingProductsChart extends ChartWidget
     {
         $branchId = Auth::user()->branch_id;
 
-        // Build the sales subquery filtered by branch and date
         $salesQuery = Sale::query()
             ->where('branch_id', $branchId)
             ->select('product_id', DB::raw('SUM(qty) as total_quantity'))
@@ -41,7 +42,7 @@ class BestSellingProductsChart extends ChartWidget
 
         match ($this->filter) {
             'today' => $salesQuery->whereDate('sale_date', today()),
-            'week' => $salesQuery->whereBetween('sale_date', [
+            'week'  => $salesQuery->whereBetween('sale_date', [
                 now()->startOfWeek(),
                 now()->endOfWeek(),
             ]),
@@ -49,11 +50,10 @@ class BestSellingProductsChart extends ChartWidget
                 now()->startOfMonth(),
                 now()->endOfMonth(),
             ]),
-            'year' => $salesQuery->whereYear('sale_date', now()->year),
+            'year'  => $salesQuery->whereYear('sale_date', now()->year),
             default => null,
         };
 
-        // Left join all products against the filtered sales subquery
         $products = Product::query()
             ->leftJoinSub(
                 $salesQuery,
@@ -71,18 +71,18 @@ class BestSellingProductsChart extends ChartWidget
         if ($products->isEmpty()) {
             return [
                 'datasets' => [],
-                'labels' => [],
+                'labels'   => [],
             ];
         }
 
         return [
             'datasets' => [
                 [
-                    'label' => 'Quantity Sold',
-                    'data' => $products->pluck('total_quantity')->toArray(),
+                    'label'           => 'Quantity Sold',
+                    'data'            => $products->pluck('total_quantity')->toArray(),
                     'backgroundColor' => 'rgba(59, 130, 246, 0.5)',
-                    'borderColor' => 'rgb(59, 130, 246)',
-                    'borderWidth' => 1,
+                    'borderColor'     => 'rgb(59, 130, 246)',
+                    'borderWidth'     => 1,
                 ],
             ],
             'labels' => $products->pluck('name')->toArray(),
@@ -97,20 +97,33 @@ class BestSellingProductsChart extends ChartWidget
     protected function getOptions(): array
     {
         return [
-            'indexAxis' => 'y',
             'plugins' => [
                 'legend' => [
                     'display' => false,
                 ],
             ],
             'scales' => [
-                'x' => [
+                'y' => [
                     'beginAtZero' => true,
                     'ticks' => [
                         'precision' => 0,
                     ],
+                    'title' => [
+                        'display' => true,
+                        'text'    => 'Quantity Sold',
+                    ],
+                ],
+                'x' => [
+                    'ticks' => [
+                        'maxRotation' => 45,
+                        'minRotation' => 45,
+                        'font' => [
+                            'size' => 10,
+                        ],
+                    ],
                 ],
             ],
+            'maintainAspectRatio' => false,
         ];
     }
 
