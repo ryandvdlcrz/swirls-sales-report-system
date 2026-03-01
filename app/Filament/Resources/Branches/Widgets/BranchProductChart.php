@@ -16,6 +16,8 @@ class BranchProductChart extends ChartWidget
 
     protected int|string|array $columnSpan = 'full';
 
+    protected static ?string $maxHeight = '550px';
+
     public ?string $filter = 'month';
 
     protected function getData(): array
@@ -111,6 +113,13 @@ class BranchProductChart extends ChartWidget
                         'stepSize' => 1,
                     ],
                 ],
+                'y' => [
+                    'ticks' => [
+                        'font' => [
+                            'size' => 11,
+                        ],
+                    ],
+                ],
             ],
             'plugins' => [
                 'legend' => [
@@ -130,19 +139,5 @@ class BranchProductChart extends ChartWidget
             'year'  => 'This Year',
             'all'   => 'All Time',
         ];
-    }
-    
-    protected function getHeight(): ?string
-    {
-        if (!$this->record) {
-            return '300px';
-        }
-
-        $productCount = DB::table('products')->count();
-
-        // 40px per product, minimum 300px
-        $height = max(300, $productCount * 40);
-
-        return $height . 'px';
     }
 }
