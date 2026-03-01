@@ -97,22 +97,17 @@ class BestSellingProductsChart extends ChartWidget
     protected function getOptions(): array
     {
         return [
+            'indexAxis' => 'y',
             'plugins' => [
                 'legend' => [
                     'display' => false,
                 ],
             ],
             'scales' => [
-                'y' => [
+                'x' => [
                     'beginAtZero' => true,
                     'ticks' => [
                         'precision' => 0,
-                    ],
-                ],
-                'x' => [
-                    'ticks' => [
-                        'maxRotation' => 45,
-                        'minRotation' => 45,
                     ],
                 ],
             ],
