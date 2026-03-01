@@ -16,7 +16,7 @@ class BranchProductChart extends ChartWidget
 
     protected int|string|array $columnSpan = 'full';
 
-    protected ?string $maxHeight = '600px';
+    protected ?string $maxHeight = '500px';
 
     public ?string $filter = 'month';
 
@@ -101,22 +101,24 @@ class BranchProductChart extends ChartWidget
     protected function getOptions(): array
     {
         return [
-            'indexAxis' => 'y',
             'scales' => [
-                'x' => [
+                'y' => [
                     'beginAtZero' => true,
+                    'ticks' => [
+                        'precision' => 0,
+                        'stepSize'  => 1,
+                    ],
                     'title' => [
                         'display' => true,
                         'text'    => 'Quantity Sold',
                     ],
-                    'ticks' => [
-                        'stepSize' => 1,
-                    ],
                 ],
-                'y' => [
+                'x' => [
                     'ticks' => [
+                        'maxRotation' => 45,
+                        'minRotation' => 45,
                         'font' => [
-                            'size' => 11,
+                            'size' => 10,
                         ],
                     ],
                 ],
