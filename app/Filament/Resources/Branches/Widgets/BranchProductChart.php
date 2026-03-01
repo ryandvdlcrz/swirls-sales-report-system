@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources\Branches\Widgets;
 
-use App\Models\Sale;
 use Filament\Widgets\ChartWidget;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -25,7 +24,7 @@ class BranchProductChart extends ChartWidget
             return ['datasets' => [], 'labels' => []];
         }
 
-        $salesQuery = Sale::query()
+        $salesQuery = DB::table('sales')
             ->where('branch_id', $this->record->id)
             ->select('product_id', DB::raw('SUM(qty) as total_qty'));
 
@@ -67,11 +66,16 @@ class BranchProductChart extends ChartWidget
             'rgba(234, 179, 8, 0.8)',
         ];
 
-        $labels = $products->map(fn($p) => $p->product_name . ' - ' . number_format($p->total_qty) . ' sold')->toArray();
+        $labels = $products->map(
+            fn($p) => $p->product_name . ' - ' . number_format($p->total_qty) . ' sold'
+        )->toArray();
+
         $quantities = $products->pluck('total_qty')->toArray();
 
-        // Cycle colors if more products than colors
-        $bgColors = array_map(fn($i) => $colors[$i % count($colors)], array_keys($quantities));
+        $bgColors = array_map(
+            fn($i) => $colors[$i % count($colors)],
+            array_keys($quantities)
+        );
 
         return [
             'datasets' => [
