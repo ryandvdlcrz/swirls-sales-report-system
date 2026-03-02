@@ -37,24 +37,42 @@ class AuthenticatedSessionController extends Controller
             ]);
         }
 
-        $request->session()->regenerate();
-
         $user = Auth::user();
 
-        // Redirect directly based on user role - no intermediate redirects
-        if ($user->role === 'admin') {
-            return redirect('/admin');
-        } elseif ($user->role === 'merchant') {
-            return redirect()->route('index');
-        } else {
-            // For users without proper roles, log them out and show error
+        // Check if user is active
+        if (! $user->is_active) {
             Auth::logout();
             $request->session()->invalidate();
 
             throw \Illuminate\Validation\ValidationException::withMessages([
-                'username' => 'Your account does not have access to this system.',
+                'username' => 'Your account has been deactivated.',
             ]);
         }
+
+        // Check if merchant's branch is active
+        if ($user->role === 'merchant' && ($user->branch === null || ! $user->branch->is_active)) {
+            Auth::logout();
+            $request->session()->invalidate();
+
+            throw \Illuminate\Validation\ValidationException::withMessages([
+                'username' => 'Your branch has been deactivated.',
+            ]);
+        }
+
+        $request->session()->regenerate();
+
+        if ($user->role === 'admin') {
+            return redirect('/admin');
+        } elseif ($user->role === 'merchant') {
+            return redirect()->route('index');
+        }
+
+        Auth::logout();
+        $request->session()->invalidate();
+
+        throw \Illuminate\Validation\ValidationException::withMessages([
+            'username' => 'Your account does not have access to this system.',
+        ]);
     }
 
 
