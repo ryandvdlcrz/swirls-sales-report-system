@@ -82,3 +82,4 @@ class User extends Authenticatable implements FilamentUser, HasName
         return $this->belongsTo(Branch::class);
     }
 }
+ // For deployment
