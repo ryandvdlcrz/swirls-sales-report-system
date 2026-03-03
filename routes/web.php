@@ -63,7 +63,6 @@ Route::middleware(['auth'])->prefix('menu')->name('menu.')->group(function () {
 Route::middleware(['auth'])->prefix('settings')->name('settings.')->group(function () {
     Route::view('/', 'settings.index')->name('index');
     Route::get('/account', [App\Http\Controllers\SettingsController::class, 'account'])->name('account');
-    Route::view('/get_help', 'settings.get_help')->name('get_help');
 });
 
 // Updated: Redirect sales to Filament merchant panel

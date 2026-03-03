@@ -21,7 +21,6 @@
                     <ul class="font-medium text-xl p-6">
                         <li class="mb-7"><a href="{{route('menu.index')}}">Menu</a></li>
                         <li class="mb-7"><a href="{{route('settings.account')}}">Account detail</a></li>
-                        <li class="mb-7"><a href="{{route('settings.get_help')}}">Get help</a></li>
                     </ul>
                 </nav>
             </div>
