@@ -25,7 +25,6 @@
                     <ul class="font-medium text-lg md:text-xl p-4 md:p-6">
                         <li class="mb-5 md:mb-7"><a href="{{route('index')}}" class="hover:underline">Menu</a></li>
                         <li class="mb-5 md:mb-7 border-1 px-2 rounded-2xl inline-block"><a href="{{route('settings.account')}}">Account detail</a></li>
-                        <li class="mb-5 md:mb-7"><a href="{{route('settings.get_help')}}" class="hover:underline">Get help</a></li>
                     </ul>
                 </nav>
 

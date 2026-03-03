@@ -25,9 +25,6 @@
                 </nav>
             </div>
 
-            <div class="p-4">
-                <img src="img/pic ni admin.jpg" alt="user" class="rounded-full md:block w-17">
-            </div>
         </header>
 
 
