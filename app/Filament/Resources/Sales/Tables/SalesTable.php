@@ -57,6 +57,7 @@ class SalesTable
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->defaultSort('sale_date', 'desc');
     }
 }
