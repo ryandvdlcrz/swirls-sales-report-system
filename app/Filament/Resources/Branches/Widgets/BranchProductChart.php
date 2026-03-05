@@ -55,41 +55,17 @@ class BranchProductChart extends ChartWidget
             ->orderByDesc('total_qty')
             ->get();
 
-        $colors = [
-            'rgba(59, 130, 246, 0.8)',
-            'rgba(16, 185, 129, 0.8)',
-            'rgba(245, 158, 11, 0.8)',
-            'rgba(239, 68, 68, 0.8)',
-            'rgba(139, 92, 246, 0.8)',
-            'rgba(236, 72, 153, 0.8)',
-            'rgba(20, 184, 166, 0.8)',
-            'rgba(251, 146, 60, 0.8)',
-            'rgba(99, 102, 241, 0.8)',
-            'rgba(234, 179, 8, 0.8)',
-        ];
-
-        $labels = $products->map(
-            fn($p) => $p->product_name . ' - ' . number_format($p->total_qty) . ' sold'
-        )->toArray();
-
-        $quantities = $products->pluck('total_qty')->toArray();
-
-        $bgColors = array_map(
-            fn($i) => $colors[$i % count($colors)],
-            array_keys($quantities)
-        );
-
         return [
             'datasets' => [
                 [
                     'label'           => 'Quantity Sold',
-                    'data'            => $quantities,
-                    'backgroundColor' => $bgColors,
-                    'borderColor'     => $bgColors,
+                    'data'            => $products->pluck('total_qty')->toArray(),
+                    'backgroundColor' => 'rgba(59, 130, 246, 0.5)',
+                    'borderColor'     => 'rgb(59, 130, 246)',
                     'borderWidth'     => 1,
                 ],
             ],
-            'labels' => $labels,
+            'labels' => $products->pluck('product_name')->toArray(),
         ];
     }
 

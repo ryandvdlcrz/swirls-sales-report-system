@@ -47,7 +47,6 @@ class BranchSalesTable extends BaseWidget
 
                 Tables\Columns\TextColumn::make('size')
                     ->label('Size')
-                    ->badge()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('qty')
