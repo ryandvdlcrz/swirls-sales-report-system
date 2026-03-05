@@ -27,6 +27,7 @@ class MerchantPanelProvider extends PanelProvider
         return $panel
             ->id('merchant')
             ->path('merchant')
+            ->timezone(env('APP_TIMEZONE', 'UTC'))
             ->brandName('Swirls Sales Report')
             ->homeUrl('/index')
             ->colors([
