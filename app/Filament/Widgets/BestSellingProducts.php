@@ -64,8 +64,8 @@ class BestSellingProducts extends ChartWidget
                 [
                     'label'           => 'Total Sales',
                     'data'            => $products->pluck('total_quantity')->toArray(),
-                    'backgroundColor' => 'rgba(34, 197, 94, 0.8)',
-                    'borderColor'     => 'rgba(34, 197, 94, 1)',
+                    'backgroundColor' => 'rgba(59, 130, 246, 0.5)',
+                    'borderColor'     => 'rgb(59, 130, 246)',
                     'borderWidth'     => 1,
                 ],
             ],
