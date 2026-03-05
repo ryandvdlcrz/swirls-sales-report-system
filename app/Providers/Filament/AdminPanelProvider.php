@@ -26,7 +26,6 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
-            ->timezone(env('APP_TIMEZONE', 'UTC'))
             ->login(false) // IMPORTANT: Disable Filament's login
             ->authGuard('web') // Use your web guard
             ->colors([
