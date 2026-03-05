@@ -98,7 +98,7 @@ class SaleResource extends Resource
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('sale_date')
-                    ->date()
+                    ->dateTime()
                     ->sortable(),
             ])
             ->filters([
