@@ -6,17 +6,26 @@ use App\Filament\Resources\Branches\BranchResource;
 use App\Filament\Resources\Branches\Widgets\BranchProductChart;
 use App\Filament\Resources\Branches\Widgets\BranchSalesTable;
 use App\Filament\Resources\Branches\Widgets\BranchStatsOverview;
-use Filament\Actions;
 use Filament\Resources\Pages\ViewRecord;
+use Filament\Schemas\Schema;
 
 class ViewBranch extends ViewRecord
 {
     protected static string $resource = BranchResource::class;
 
+    public function infolist(Schema $schema): Schema
+    {
+        return $schema->components([]);
+    }
+
+    public function form(Schema $schema): Schema
+    {
+        return $schema->components([]);
+    }
+
     protected function getHeaderActions(): array
     {
-        return [
-        ];
+        return [];
     }
 
     protected function getHeaderWidgets(): array
