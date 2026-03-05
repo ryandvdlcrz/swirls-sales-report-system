@@ -52,7 +52,6 @@ class SalesTable
             ])
             ->recordActions([
                 ViewAction::make(),
-                EditAction::make(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

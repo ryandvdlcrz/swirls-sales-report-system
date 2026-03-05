@@ -15,7 +15,6 @@ class EditSale extends EditRecord
     {
         return [
             ViewAction::make(),
-            DeleteAction::make(),
         ];
     }
 }
