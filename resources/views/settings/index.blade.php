@@ -19,7 +19,7 @@
                 <div class="text-3xl font-medium p-6">Settings</div>
                 <nav>
                     <ul class="font-medium text-xl p-6">
-                        <li class="mb-7"><a href="{{route('menu.index')}}">Menu</a></li>
+                        <li class="mb-7"><a href="{{route('index')}}">Home</a></li>
                         <li class="mb-7"><a href="{{route('settings.account')}}">Account detail</a></li>
                     </ul>
                 </nav>
