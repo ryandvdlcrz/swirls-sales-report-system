@@ -6,14 +6,16 @@ use App\Filament\Merchant\Resources\Sales\Pages;
 use App\Models\Sale;
 use BackedEnum;
 use Filament\Forms;
+use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Resource;
-use Filament\Schemas\Components\Component;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
+use Filament\Actions\ViewAction;
+
 
 class SaleResource extends Resource
 {
@@ -23,48 +25,37 @@ class SaleResource extends Resource
 
     public static function getEloquentQuery(): Builder
     {
-        // Filter by user_id for logged-in merchant and eager load relationships
         return parent::getEloquentQuery()
             ->where('user_id', Auth::id())
             ->with(['product', 'flavor', 'branch']);
     }
 
-    public static function form(Schema $schema): Schema
+    public static function infolist(Schema $schema): Schema
     {
         return $schema
             ->components([
-                Component::make('textInput')
-                    ->name('product')
-                    ->label('Product')
-                    ->required(),
+                TextEntry::make('branch.name')
+                    ->label('Name'),
 
-                Component::make('textInput')
-                    ->name('flavor')
-                    ->label('Flavor')
-                    ->required(),
+                TextEntry::make('product.name')
+                    ->label('Product Name'),
 
-                Component::make('textInput')
-                    ->name('size')
-                    ->label('Size')
-                    ->required(),
+                TextEntry::make('flavor.name')
+                    ->label('Flavor'),
 
-                Component::make('textInput')
-                    ->name('qty')
-                    ->label('Quantity')
-                    ->numeric()
-                    ->required(),
+                TextEntry::make('size')
+                    ->label('Size'),
 
-                Component::make('textInput')
-                    ->name('total_amount')
-                    ->label('Total Amount')
-                    ->numeric()
-                    ->prefix('₱')
-                    ->required(),
+                TextEntry::make('qty')
+                    ->label('Qty'),
 
-                Component::make('datePicker')
-                    ->name('sale_date')
-                    ->label('Sale Date')
-                    ->required(),
+                TextEntry::make('total_amount')
+                    ->label('Total amount')
+                    ->money('PHP'),
+
+                TextEntry::make('sale_date')
+                    ->label('Sale date')
+                    ->dateTime(),
             ]);
     }
 
@@ -138,6 +129,9 @@ class SaleResource extends Resource
                     })
                     ->label('Date Range'),
             ])
+            ->recordActions([
+            ViewAction::make(),
+            ])
             ->defaultSort('sale_date', 'desc')
             ->defaultPaginationPageOption(25);
     }
@@ -151,9 +145,8 @@ class SaleResource extends Resource
     {
         return [
             'index' => Pages\ListSales::route('/'),
-            'create' => Pages\CreateSale::route('/create'),
             'view' => Pages\ViewSale::route('/{record}'),
-            'edit' => Pages\EditSale::route('/{record}/edit'),
+            
         ];
     }
 }
