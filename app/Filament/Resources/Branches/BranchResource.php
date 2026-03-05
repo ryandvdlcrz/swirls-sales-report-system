@@ -6,6 +6,7 @@ use App\Filament\Resources\Branches\Pages\CreateBranch;
 use App\Filament\Resources\Branches\Pages\EditBranch;
 use App\Filament\Resources\Branches\Pages\ListBranches;
 use App\Filament\Resources\Branches\Pages\ViewBranch;
+use App\Filament\Resources\Branches\Schemas\BranchInfolist; // Add this
 use App\Models\Branch;
 use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
@@ -59,6 +60,11 @@ class BranchResource extends Resource
                     ->label('Active')
                     ->default(true),
             ]);
+    }
+
+    public static function infolist(Schema $schema): Schema // Add this
+    {
+        return BranchInfolist::configure($schema);
     }
 
     public static function table(Table $table): Table
