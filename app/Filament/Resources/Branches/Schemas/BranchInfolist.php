@@ -11,16 +11,6 @@ class BranchInfolist
     public static function configure(Schema $schema): Schema
     {
         return $schema
-            ->components([
-                TextEntry::make('name'),
-                TextEntry::make('code'),
-                TextEntry::make('location'),
-                IconEntry::make('is_active')
-                    ->boolean(),
-                TextEntry::make('created_at')
-                    ->dateTime(),
-                TextEntry::make('updated_at')
-                    ->dateTime(),
-            ]);
+        ->components([]);
     }
 }
