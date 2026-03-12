@@ -87,11 +87,14 @@
         </header>
 
         <footer class="fixed bottom-0 right-0 p-4 sm:p-5 md:p-6">
-            <a href="login.html" class="bg-white hover:bg-blue-700 text-black hover:text-white font-medium
-                      py-2 px-4 sm:py-2.5 sm:px-5 md:py-3 md:px-7
-                      rounded-xl shadow text-sm sm:text-base md:text-lg inline-block">
-                Log Out
-            </a>
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit" class="bg-white hover:bg-blue-700 text-black hover:text-white font-medium
+                          py-2 px-4 sm:py-2.5 sm:px-5 md:py-3 md:px-7
+                          rounded-xl shadow text-sm sm:text-base md:text-lg">
+                    Log Out
+                </button>
+            </form>
         </footer>
 
     </div>
