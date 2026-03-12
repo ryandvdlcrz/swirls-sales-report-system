@@ -15,6 +15,8 @@
         src: '',
         cart: [],
         sizeLabels: { Small: '8oz', Medium: '12oz', Large: '16oz' },
+        confirmOpen: false,
+        pendingRemoveIndex: null,
 
         init() {
             this.loadCart()
@@ -30,9 +32,25 @@
             this.cart = []
         },
 
+        confirmRemove(index){
+            this.pendingRemoveIndex = index
+            this.confirmOpen = true
+        },
+
         removeItem(index){
             this.cart.splice(index, 1)
             localStorage.setItem('cart', JSON.stringify(this.cart))
+        },
+
+        confirmYes(){
+            if (this.pendingRemoveIndex !== null) this.removeItem(this.pendingRemoveIndex)
+            this.confirmOpen = false
+            this.pendingRemoveIndex = null
+        },
+
+        confirmNo(){
+            this.confirmOpen = false
+            this.pendingRemoveIndex = null
         }
     }">
 
@@ -133,7 +151,8 @@
                                 </div>
                             </div>
 
-                            <button @click="removeItem(index)" class="active:scale-95 shrink-0 self-center">
+                            {{-- Changed: @click="confirmRemove(index)" --}}
+                            <button @click="confirmRemove(index)" class="active:scale-95 shrink-0 self-center">
                                 <img src="{{ asset('img/delete.png') }}" class="w-4 h-3 md:w-5 md:h-4">
                             </button>
 
@@ -164,7 +183,7 @@
             </aside>
 
 
-            <!-- ================= MODAL ================= -->
+            <!-- ================= ITEM MODAL ================= -->
             <div x-show="open" x-transition.opacity x-cloak @keydown.escape.window="open = false" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4 md:p-6" @click.self="open = false">
 
                 <div x-transition.scale class="bg-[#FFF6F6] rounded-2xl shadow-2xl relative overflow-hidden
@@ -176,6 +195,25 @@
 
                     <iframe :src="src" class="w-full h-full border-none"></iframe>
 
+                </div>
+            </div>
+
+
+            <!-- ================= CONFIRM REMOVE MODAL ================= -->
+            <div x-show="confirmOpen" x-transition.opacity x-cloak @keydown.escape.window="confirmNo()" class="fixed inset-0 bg-black/50 flex items-center justify-center z-[60] p-4" @click.self="confirmNo()">
+                <div x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-90" class="bg-white rounded-2xl shadow-2xl p-5 md:p-8 w-full max-w-[85vw] sm:max-w-xs md:max-w-sm text-center">
+                    <div class="text-3xl md:text-4xl mb-3">🗑️</div>
+                    <h2 class="text-base md:text-lg font-semibold text-gray-800 mb-1">Remove item?</h2>
+                    <p class="text-xs md:text-sm text-gray-500 mb-5">This item will be removed from your order.</p>
+
+                    <div class="flex gap-3">
+                        <button @click="confirmNo()" class="flex-1 py-2 md:py-3 rounded-xl border border-gray-300 text-gray-700 text-sm md:text-base font-medium hover:bg-gray-100 active:scale-95 transition">
+                            Cancel
+                        </button>
+                        <button @click="confirmYes()" class="flex-1 py-2 md:py-3 rounded-xl bg-red-500 text-white text-sm md:text-base font-medium hover:bg-red-600 active:scale-95 transition">
+                            Remove
+                        </button>
+                    </div>
                 </div>
             </div>
 
