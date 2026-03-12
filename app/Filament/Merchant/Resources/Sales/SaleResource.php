@@ -130,7 +130,6 @@ class SaleResource extends Resource
                     ->label('Date Range'),
             ])
             ->recordActions([
-            ViewAction::make(),
             ])
             ->defaultSort('sale_date', 'desc')
             ->defaultPaginationPageOption(25);
