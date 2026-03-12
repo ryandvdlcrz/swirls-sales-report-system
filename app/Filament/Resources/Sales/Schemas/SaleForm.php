@@ -16,6 +16,9 @@ class SaleForm
                 Select::make('branch_id')
                     ->relationship('branch', 'name')
                     ->required(),
+                Select::make('user_id')
+                    ->relationship('user', 'id')
+                    ->required(),
                 Select::make('product_id')
                     ->relationship('product', 'name')
                     ->required(),

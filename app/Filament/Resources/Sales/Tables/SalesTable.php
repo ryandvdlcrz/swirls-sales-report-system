@@ -18,9 +18,6 @@ class SalesTable
                 TextColumn::make('branch.name')
                     ->numeric()
                     ->sortable(),
-                TextColumn::make('user.id')
-                    ->numeric()
-                    ->sortable(),
                 TextColumn::make('product.name')
                     ->numeric()
                     ->sortable(),
@@ -51,7 +48,6 @@ class SalesTable
                 //
             ])
             ->recordActions([
-                ViewAction::make(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
