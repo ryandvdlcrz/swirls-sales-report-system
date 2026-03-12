@@ -27,6 +27,7 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
+            ->brandName('Swirls Sales Report')
             ->login(false) // IMPORTANT: Disable Filament's login
             ->authGuard('web') // Use your web guard
             ->colors([
