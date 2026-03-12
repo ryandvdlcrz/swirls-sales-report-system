@@ -17,6 +17,7 @@
         sizeLabels: { Small: '8oz', Medium: '12oz', Large: '16oz' },
         confirmOpen: false,
         pendingRemoveIndex: null,
+        clearConfirmOpen: false,
 
         init() {
             this.loadCart()
@@ -51,6 +52,19 @@
         confirmNo(){
             this.confirmOpen = false
             this.pendingRemoveIndex = null
+        },
+
+        confirmClearAll(){
+            this.clearConfirmOpen = true
+        },
+
+        clearYes(){
+            this.clearCart()
+            this.clearConfirmOpen = false
+        },
+
+        clearNo(){
+            this.clearConfirmOpen = false
         }
     }">
 
@@ -161,7 +175,7 @@
                 </div>
 
                 <div class="text-right p-1.5 md:p-2 mr-3 md:mr-5">
-                    <button @click="clearCart()" class="text-red-500 underline text-xs md:text-sm">
+                    <button @click="confirmClearAll()" class="text-red-500 underline text-xs md:text-sm">
                         Clear All
                     </button>
                 </div>
@@ -195,6 +209,25 @@
 
                     <iframe :src="src" class="w-full h-full border-none"></iframe>
 
+                </div>
+            </div>
+
+
+            <!-- ================= CONFIRM CLEAR ALL MODAL ================= -->
+            <div x-show="clearConfirmOpen" x-transition.opacity x-cloak @keydown.escape.window="clearNo()" class="fixed inset-0 bg-black/50 flex items-center justify-center z-[60] p-4" @click.self="clearNo()">
+                <div x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-90" class="bg-white rounded-2xl shadow-2xl p-5 md:p-8 w-full max-w-[85vw] sm:max-w-xs md:max-w-sm text-center">
+                    <div class="text-3xl md:text-4xl mb-3">🗑️</div>
+                    <h2 class="text-base md:text-lg font-semibold text-gray-800 mb-1">Clear all items?</h2>
+                    <p class="text-xs md:text-sm text-gray-500 mb-5">All items in your order will be removed.</p>
+
+                    <div class="flex gap-3">
+                        <button @click="clearNo()" class="flex-1 py-2 md:py-3 rounded-xl border border-gray-300 text-gray-700 text-sm md:text-base font-medium hover:bg-gray-100 active:scale-95 transition">
+                            Cancel
+                        </button>
+                        <button @click="clearYes()" class="flex-1 py-2 md:py-3 rounded-xl bg-red-500 text-white text-sm md:text-base font-medium hover:bg-red-600 active:scale-95 transition">
+                            Clear All
+                        </button>
+                    </div>
                 </div>
             </div>
 
